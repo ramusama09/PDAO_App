@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.pdao_app"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.pdao_app"
@@ -32,6 +32,17 @@ android {
 }
 
 dependencies {
+
+    // CameraX
+    implementation ("androidx.camera:camera-core:1.3.0")
+    implementation ("androidx.camera:camera-camera2:1.3.0")
+    implementation ("androidx.camera:camera-lifecycle:1.3.0")
+    implementation ("androidx.camera:camera-view:1.3.0")
+    implementation ("androidx.camera:camera-extensions:1.3.0")
+
+// ML Kit Barcode Scanning
+    implementation ("com.google.mlkit:barcode-scanning:17.2.0")
+
 
     implementation(libs.appcompat)
     implementation(libs.material)
