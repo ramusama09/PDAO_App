@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWD ID Card Generator</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="id_card_styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PWD ID Card Generator</h1>
+        
+        <div class="form-container">
+            <h2>Enter ID Information</h2>
+            <form id="idForm">
+                <div class="form-group">
+                    <h3>Front ID Information</h3>
+                    <div class="form-row">
+                        <label for="pwdIdNo">PWD ID NO.:</label>
+                        <input type="text" id="pwdIdNo" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="name">NAME:</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="disabilityType">TYPE OF DISABILITY:</label>
+                        <input type="text" id="disabilityType" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="expiresOn">EXPIRES ON:</label>
+                        <input type="date" id="expiresOn" required>
+                    </div>
+                    <div class="form-row">
+                        <label>SIGNATURE:</label>
+                        <div class="canvas-container">
+                            <canvas id="signatureCanvas" width="300" height="100"></canvas>
+                            <button type="button" id="clearSignature">Clear</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>IMAGE:</label>
+                        <div class="camera-container">
+                            <video id="cameraFeed" width="300" height="225" autoplay playsinline></video>
+                            <canvas id="captureCanvas" width="300" height="225" style="display:none;"></canvas>
+                            <div class="camera-buttons">
+                                <button type="button" id="startCamera">Start Camera</button>
+                                <button type="button" id="captureImage">Capture</button>
+                            </div>
+                            <div class="preview-container">
+                                <img id="capturedImage" src="" alt="Captured image will appear here" width="150" height="150">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3>Back ID Information</h3>
+                    <div class="form-row">
+                        <label for="address">ADDRESS:</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="dateOfBirth">DATE OF BIRTH:</label>
+                        <input type="date" id="dateOfBirth" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="sex">SEX:</label>
+                        <select id="sex" required>
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="dateIssued">DATE ISSUED:</label>
+                        <input type="date" id="dateIssued" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="bloodType">BLOOD TYPE:</label>
+                        <select id="bloodType" required>
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="guardian">PARENT/GUARDIAN/EMERGENCY CONTACT:</label>
+                        <input type="text" id="guardian" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="contactNumber">CONTACT NUMBER:</label>
+                        <input type="text" id="contactNumber" required>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="previewButton">Preview ID</button>
+                    <button type="button" id="printButton">Print IDs</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="preview-section">
+            <h2>ID Preview</h2>
+            <div class="id-preview-container">
+                <div class="id-preview front-preview">
+                    <h3>Front ID</h3>
+                    <div id="frontIdPreview" class="id-card-preview"></div>
+                </div>
+                <div class="id-preview back-preview">
+                    <h3>Back ID</h3>
+                    <div id="backIdPreview" class="id-card-preview"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="printArea" class="print-area">
+            <!-- IDs for printing will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
