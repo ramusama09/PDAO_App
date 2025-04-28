@@ -1,117 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".TransactionForms"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".TransactionForms">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/transactionTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Transaction Details"
-        android:textSize="26sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:textColor="@color/green"
-        android:textStyle="bold"/>
+        android:padding="16dp">
 
-    <!-- Amount Row -->
+        <!-- Title -->
+        <TextView
+            android:id="@+id/transactionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction Details"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/labelAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:text="Amount:"
-        android:textColor="@color/green"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transactionTitle" />
+        <!-- Reference No. & Store Name Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/referenceStoreCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/green"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/transactionTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/amountEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Amount"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toTopOf="@id/labelAmount"
-        app:layout_constraintStart_toEndOf="@id/labelAmount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        android:layout_marginStart="16dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        android:textColor="@color/text_dark"/>
+                <TextView
+                    android:id="@+id/referenceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reference No."
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:paddingVertical="8dp"/>
 
-    <!-- Description Row -->
-    <TextView
-        android:id="@+id/labelDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description:"
-        app:layout_constraintTop_toBottomOf="@id/amountEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"
-        android:textSize="18dp"
-        android:textColor="@color/green"
-        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/storeNameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the Store"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/descriptionEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Description"
-        android:inputType="text"
-        app:layout_constraintTop_toTopOf="@id/labelDescription"
-        app:layout_constraintStart_toEndOf="@id/labelDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/text_dark"/>
 
-    <!-- Date Row -->
-    <TextView
-        android:id="@+id/labelDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date:"
-        app:layout_constraintTop_toBottomOf="@id/descriptionEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"
-        android:textSize="18dp"
-        android:textColor="@color/green"
-        android:textStyle="bold"/>
+        <!-- Dynamic Item List (Items will be added here) -->
+        <LinearLayout
+            android:id="@+id/itemListContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/referenceStoreCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/dateEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Date"
-        android:inputType="date"
-        app:layout_constraintTop_toTopOf="@id/labelDate"
-        app:layout_constraintStart_toEndOf="@id/labelDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/text_dark"/>
+        <!-- Add / Subtract Buttons -->
+        <LinearLayout
+            android:id="@+id/addRemoveButtons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/itemListContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Submit Button -->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="204dp"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateEditText"
-        android:textColor="@color/white"
-        android:background="@color/green"/>
+            <Button
+                android:id="@+id/addItemButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Item"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/white"
+                android:layout_marginEnd="8dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/removeItemButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove Item"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Final Totals Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/totalCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/addRemoveButtons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/submitButton"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/green">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/originalTotalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Original Total Price: ₱0.00"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/discountedTotalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Discounted Total Price: ₱0.00"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
