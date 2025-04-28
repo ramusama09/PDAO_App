@@ -16,13 +16,8 @@ import java.util.ArrayList;
 
 public class TransactionForms extends AppCompatActivity {
 
-    private TextView referenceNoText, storeNameText;
-    private LinearLayout itemsContainer;
-    private Button addItemButton, removeItemButton, submitButton;
-    private TextView originalTotalTextView, discountedTotalTextView;
-
-    // Store all item views
-    private ArrayList<View> itemViews = new ArrayList<>();
+    private EditText referenceNoText, storeNameText, storeAddressText, descriptionText;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,42 +25,24 @@ public class TransactionForms extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_forms);
 
         // Initialize inputs
-        referenceNoText = findViewById(R.id.referenceTextView);
-        storeNameText = findViewById(R.id.storeNameTextView);
-        itemsContainer = findViewById(R.id.itemListContainer);
-        addItemButton = findViewById(R.id.addItemButton);
-        removeItemButton = findViewById(R.id.removeItemButton);
+        referenceNoText = findViewById(R.id.referenceEditText);
+        storeNameText = findViewById(R.id.storeNameEditText);
+        storeAddressText = findViewById(R.id.storeAddressEditText);
+        descriptionText = findViewById(R.id.descriptionEditText);
         submitButton = findViewById(R.id.submitButton);
-        originalTotalTextView = findViewById(R.id.originalTotalText);
-        discountedTotalTextView = findViewById(R.id.discountedTotalText);
+
 
         Intent intent = getIntent();
         if (intent != null) {
             String qrResult = intent.getStringExtra("qr_result");
             if (qrResult != null) {
-                referenceNoText.setText("Reference No: INSERT");
-                storeNameText.setText("Store Name: " + qrResult);
+                referenceNoText.setText("SUCCESS");
+                storeNameText.setText(qrResult);
+                storeAddressText.setText("AGEY");
+                descriptionText.setText("NICE");
             }
         }
 
-        // Add first item row by default
-        addItem();
-
-        // Listener for Add Item button
-        addItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItem();
-            }
-        });
-
-        // Listener for Remove Item button
-        removeItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeItem();
-            }
-        });
 
         // Listener for Submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -76,60 +53,16 @@ public class TransactionForms extends AppCompatActivity {
         });
     }
 
-    // Function to dynamically add an item input row
-    private void addItem() {
-        View itemView = LayoutInflater.from(this).inflate(R.layout.item_row, itemsContainer, false);
-        itemsContainer.addView(itemView);
-        itemViews.add(itemView);
-
-        // Add listeners to auto-update total when price/discount changes
-        EditText priceEditText = itemView.findViewById(R.id.priceEditText);
-        EditText discountedPriceEditText = itemView.findViewById(R.id.discountedPriceEditText);
-
-        TextWatcherAdapter watcher = new TextWatcherAdapter(this::updateTotals);
-        priceEditText.addTextChangedListener(watcher);
-        discountedPriceEditText.addTextChangedListener(watcher);
-
-        updateTotals();
-    }
-
-    // Function to dynamically remove the last item row
-    private void removeItem() {
-        if (!itemViews.isEmpty()) {
-            View lastItemView = itemViews.remove(itemViews.size() - 1);
-            itemsContainer.removeView(lastItemView);
-            updateTotals();
-        }
-    }
-
     // Update the Original Total and Discounted Total
-    private void updateTotals() {
-        double originalTotal = 0.0;
-        double discountedTotal = 0.0;
-
-        for (View itemView : itemViews) {
-            EditText quantityEditText = itemView.findViewById(R.id.qtyEditText);
-            EditText priceEditText = itemView.findViewById(R.id.priceEditText);
-            EditText discountedPriceEditText = itemView.findViewById(R.id.discountedPriceEditText);
-
-            double qty = parseDouble(quantityEditText.getText().toString());
-            double price = parseDouble(priceEditText.getText().toString());
-            double discountedPrice = parseDouble(discountedPriceEditText.getText().toString());
-
-            originalTotal += (price * qty);
-            discountedTotal += (discountedPrice * qty);
-        }
-
-        originalTotalTextView.setText(String.format("Original Total Price: %.2f", originalTotal));
-        discountedTotalTextView.setText(String.format("Discounted Total Price: %.2f", discountedTotal));
-    }
 
     // Handle Submit
     private void submitTransaction() {
         String referenceNo = referenceNoText.getText().toString();
         String storeName = storeNameText.getText().toString();
+        String storeAddress = storeAddressText.getText().toString();
+        String desc = descriptionText.getText().toString();
 
-        if (referenceNo.isEmpty() || storeName.isEmpty() || itemViews.isEmpty()) {
+        if (referenceNo.isEmpty() || storeName.isEmpty() || storeAddress.isEmpty() || desc.isEmpty()) {
             Toast.makeText(this, "Please complete all fields!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -140,17 +73,7 @@ public class TransactionForms extends AppCompatActivity {
         // Optionally clear everything
         referenceNoText.setText("");
         storeNameText.setText("");
-        itemsContainer.removeAllViews();
-        itemViews.clear();
-        updateTotals();
-    }
-
-    // Helper function
-    private double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
+        storeAddressText.setText("");
+        descriptionText.setText("");
     }
 }

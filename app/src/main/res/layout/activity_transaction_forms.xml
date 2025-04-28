@@ -1,163 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".TransactionForms">
+    tools:context=".TransactionForms"
+    android:padding="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <!-- Title -->
+    <TextView
+        android:id="@+id/transactionTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:text="Transaction Details"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/transactionTitle"
-            android:layout_width="wrap_content"
+    <!-- Reference No. & Store Name Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/referenceStoreCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/green"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionTitle">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Transaction Details"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="@color/green"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:padding="16dp">
 
-        <!-- Reference No. & Store Name Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/referenceStoreCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="@color/green"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/transactionTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Reference No. -->
+            <TextView
+                android:id="@+id/referenceTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/referenceTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Reference No."
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:paddingVertical="8dp"/>
-
-                <TextView
-                    android:id="@+id/storeNameTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name of the Store"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:paddingVertical="8dp"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-
-        <!-- Dynamic Item List (Items will be added here) -->
-        <LinearLayout
-            android:id="@+id/itemListContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/referenceStoreCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Add / Subtract Buttons -->
-        <LinearLayout
-            android:id="@+id/addRemoveButtons"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/itemListContainer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <Button
-                android:id="@+id/addItemButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Item"
-                android:backgroundTint="@color/green"
+                android:paddingVertical="8dp"
+                android:text="Reference No:"
                 android:textColor="@color/white"
-                android:layout_marginEnd="8dp" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"/>
 
-            <Button
-                android:id="@+id/removeItemButton"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/referenceEditText"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Remove Item"
-                android:backgroundTint="@color/green"
-                android:textColor="@color/white" />
-        </LinearLayout>
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/white"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/referenceTextView"
+                app:layout_constraintTop_toTopOf="@id/referenceTextView"
+                app:layout_constraintWidth_percent="0.7"/>
 
-        <!-- Final Totals Card -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/totalCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/addRemoveButtons"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/submitButton"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/green">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Store Name -->
+            <TextView
+                android:id="@+id/storeNameTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginTop="16dp"
+                android:paddingVertical="8dp"
+                android:text="Store Name:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/referenceEditText"
+                app:layout_constraintWidth_percent="0.3"/>
 
-                <TextView
-                    android:id="@+id/originalTotalText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Original Total Price: ₱0.00"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/storeNameEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/white"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/storeNameTextView"
+                app:layout_constraintTop_toTopOf="@id/storeNameTextView"
+                app:layout_constraintWidth_percent="0.7"/>
 
-                <TextView
-                    android:id="@+id/discountedTotalText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Discounted Total Price: ₱0.00"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            <!-- Store Address -->
+            <TextView
+                android:id="@+id/storeAddressTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingVertical="8dp"
+                android:text="Address:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storeNameEditText"
+                app:layout_constraintWidth_percent="0.3"/>
 
-        <!-- Submit Button -->
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <EditText
+                android:id="@+id/storeAddressEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/white"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/storeAddressTextView"
+                app:layout_constraintTop_toTopOf="@id/storeAddressTextView"
+                app:layout_constraintWidth_percent="0.7"/>
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingVertical="8dp"
+                android:text="Description:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storeAddressEditText"
+                app:layout_constraintWidth_percent="0.3"/>
+
+            <EditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/white"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/descriptionTextView"
+                app:layout_constraintTop_toTopOf="@id/descriptionTextView"
+                app:layout_constraintWidth_percent="0.7"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/referenceStoreCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
