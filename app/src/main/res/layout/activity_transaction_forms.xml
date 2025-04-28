@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".TransactionForms">
+    tools:context=".TransactionForms"
+    android:background="@color/white">
 
     <!-- Title -->
     <TextView
@@ -13,11 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Transaction Details"
-        android:textSize="18sp"
+        android:textSize="26sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:textColor="@color/green"
+        android:textStyle="bold"/>
 
     <!-- Amount Row -->
 
@@ -25,11 +28,13 @@
         android:id="@+id/labelAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
         android:text="Amount:"
-        app:layout_constraintTop_toBottomOf="@id/transactionTitle"
+        android:textColor="@color/green"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"
-        android:textSize="18dp"/>
+        app:layout_constraintTop_toBottomOf="@id/transactionTitle" />
 
     <EditText
         android:id="@+id/amountEditText"
@@ -41,7 +46,9 @@
         app:layout_constraintStart_toEndOf="@id/labelAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+
+        android:textColor="@color/text_dark"/>
 
     <!-- Description Row -->
     <TextView
@@ -52,7 +59,9 @@
         app:layout_constraintTop_toBottomOf="@id/amountEditText"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="24dp"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="@color/green"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/descriptionEditText"
@@ -63,7 +72,8 @@
         app:layout_constraintTop_toTopOf="@id/labelDescription"
         app:layout_constraintStart_toEndOf="@id/labelDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:textColor="@color/text_dark"/>
 
     <!-- Date Row -->
     <TextView
@@ -74,7 +84,9 @@
         app:layout_constraintTop_toBottomOf="@id/descriptionEditText"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="24dp"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="@color/green"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/dateEditText"
@@ -85,17 +97,21 @@
         app:layout_constraintTop_toTopOf="@id/labelDate"
         app:layout_constraintStart_toEndOf="@id/labelDate"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:textColor="@color/text_dark"/>
 
     <!-- Submit Button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
         android:text="Submit"
-        app:layout_constraintTop_toBottomOf="@id/dateEditText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateEditText"
+        android:textColor="@color/white"
+        android:background="@color/green"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

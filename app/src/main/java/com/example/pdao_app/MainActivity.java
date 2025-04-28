@@ -1,11 +1,15 @@
 package com.example.pdao_app;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +30,6 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private PreviewView previewView;
     private ExecutorService cameraExecutor;
     private boolean hasScanned = false;
+    private boolean isFlashOn = false;
+    private ImageButton flashToggle;
+    private androidx.camera.core.Camera camera; // Camera instance to control the torch
+    private ObjectAnimator pulseAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +73,74 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAMERA},
                     CAMERA_PERMISSION_REQUEST_CODE);
         }
+
+        flashToggle = findViewById(R.id.flashToggle);
+
+        flashToggle.setOnClickListener(v -> {
+            if (camera != null && camera.getCameraInfo().hasFlashUnit()) {
+                isFlashOn = !isFlashOn;
+
+                // Animate fade out + scale down
+                flashToggle.animate()
+                        .scaleX(0.8f)
+                        .scaleY(0.8f)
+                        .alpha(0f)
+                        .setDuration(150)
+                        .withEndAction(() -> {
+                            // Change icon
+                            flashToggle.setImageResource(isFlashOn ? R.drawable.lightbulb_on : R.drawable.lightbulb);
+
+                            // Toggle torch
+                            camera.getCameraControl().enableTorch(isFlashOn);
+
+                            // Start or stop pulse
+                            if (isFlashOn) {
+                                startPulseAnimation();
+                            } else {
+                                stopPulseAnimation();
+                            }
+
+                            // Animate back to visible
+                            flashToggle.setScaleX(0.8f);
+                            flashToggle.setScaleY(0.8f);
+                            flashToggle.setAlpha(0f);
+                            flashToggle.animate()
+                                    .scaleX(1f)
+                                    .scaleY(1f)
+                                    .alpha(1f)
+                                    .setDuration(150)
+                                    .start();
+                        })
+                        .start();
+            }
+        });
+
     }
+
+
+
+    private void startPulseAnimation() {
+        if (pulseAnimator == null) {
+            pulseAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                    flashToggle,
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.1f, 1f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.1f, 1f)
+            );
+            pulseAnimator.setDuration(600);
+            pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            pulseAnimator.setRepeatMode(ValueAnimator.RESTART);
+        }
+        pulseAnimator.start();
+    }
+
+    private void stopPulseAnimation() {
+        if (pulseAnimator != null && pulseAnimator.isRunning()) {
+            pulseAnimator.cancel();
+            flashToggle.setScaleX(1f);
+            flashToggle.setScaleY(1f);
+        }
+    }
+
 
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
@@ -88,7 +162,12 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 cameraProvider.unbindAll();
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+                camera = cameraProvider.bindToLifecycle(
+                        this,
+                        cameraSelector,
+                        preview,
+                        imageAnalysis
+                );
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
             } catch (ExecutionException | InterruptedException e) {

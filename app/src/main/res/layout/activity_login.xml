@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:text="Welcome!"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text="Username"
-                android:textColor="#000000"
+                android:textColor="@color/green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,8 @@
                 android:id="@+id/usernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/text_dark"/>
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text="Password"
-                android:textColor="#000000"
+                android:textColor="@color/green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -74,7 +75,8 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/text_dark"/>
         </LinearLayout>
 
         <TextView
@@ -93,6 +95,7 @@
             android:layout_marginBottom="16dp"
             android:text="Login"
             android:textColor="@color/white"
+            android:background="@color/green"
             android:textStyle="bold" />
 
         <LinearLayout
