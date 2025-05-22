@@ -1,6 +1,7 @@
 package com.example.pdao_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,11 @@ public class TransactionForms extends AppCompatActivity {
             Toast.makeText(this, "Please complete all fields!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        SharedPreferences prefs = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();  // This clears all data in AuthPrefs
+        editor.apply();  // Apply changes asynchronously (or use commit() to do it synchronously)
 
         // You can process the data (save to database, send to server, etc.)
         Toast.makeText(this, "Transaction Submitted!", Toast.LENGTH_SHORT).show();

@@ -8,7 +8,37 @@
     android:padding="32dp"
     android:background="@color/white">
 
-    <!-- Shadow and inner box layout -->
+    <!-- Initial Button Layout -->
+    <LinearLayout
+        android:id="@+id/initial_buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/storeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Store"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_rectangle"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/pwdButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PWD"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_rectangle"/>
+    </LinearLayout>
+
+    <!-- Login Form Layout (Initially Hidden) -->
     <LinearLayout
         android:id="@+id/add_Shadow"
         android:layout_width="match_parent"
@@ -17,12 +47,14 @@
         android:elevation="3dp"
         android:orientation="vertical"
         android:padding="24dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498">
 
+        <!-- login form elements remain unchanged -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +65,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <!-- Username Field -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +89,7 @@
                 android:textColor="@color/text_dark"/>
         </LinearLayout>
 
+        <!-- Password Field -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,7 +129,7 @@
             android:layout_marginBottom="16dp"
             android:text="Login"
             android:textColor="@color/white"
-            android:background="@color/green"
+            android:background="@drawable/rounded_rectangle"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -124,36 +158,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Username and password fields using constraint layout -->
-    <!--<EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Username"
-        app:layout_constraintTop_toBottomOf="@id/add_Shadow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />-->
-
-    <!--<EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />-->
-
-    <!--<Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

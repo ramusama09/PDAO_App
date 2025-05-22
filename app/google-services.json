@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "591949755858",
+    "firebase_url": "https://pdao-webapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pdao-webapp",
+    "storage_bucket": "pdao-webapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591949755858:android:855d15a756df63763fc40b",
+        "android_client_info": {
+          "package_name": "com.example.pdao_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAX8eW0GOORU-3vmGwd5pRs5UxAq6sYec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
