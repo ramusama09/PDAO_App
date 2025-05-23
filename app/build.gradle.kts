@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.pdao_app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.1.1"
+        versionCode = 4
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -40,6 +43,8 @@ dependencies {
     implementation ("androidx.camera:camera-lifecycle:1.3.0")
     implementation ("androidx.camera:camera-view:1.3.0")
     implementation ("androidx.camera:camera-extensions:1.3.0")
+    implementation ("androidx.core:core:1.9.0")
+    implementation ("androidx.appcompat:appcompat:1.6.0")
 
 // ML Kit Barcode Scanning
     implementation ("com.google.mlkit:barcode-scanning:17.2.0")
@@ -51,6 +56,11 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
+    implementation(libs.cardview)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

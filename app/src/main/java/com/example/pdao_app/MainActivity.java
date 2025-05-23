@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             // User is signed in
             //startActivity(new Intent(this, PwdUserDashboard.class));
-            startActivity(new Intent(this, LoginActivity.class)); //Remove this once the dashboard is done
+            startActivity(new Intent(this, Dashboard.class)); //Remove this once the dashboard is done
         } else {
             // User is not signed in
             startActivity(new Intent(this, LoginActivity.class));

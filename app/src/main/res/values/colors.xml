@@ -2,13 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="off_white">#F5F5F5</color>
 
 
     <color name="red">#C40233</color>
-    <color name="green">#027d23</color>
-    <color name="light_green">#2ee65f</color>
+    <color name="green">#4CAF50</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="dark_green">#2E7D32</color>
     <color name="blue">#0D6EFD</color>
-    <color name="yellow">#EDE700</color>
+    <color name="yellow">#FFD700</color>
     <color name="emergency_red">#FF3D3D</color>
     <color name="shimmer_color">#DDDDDD</color>
     <color name="primary_blue">#0D6EFD</color>

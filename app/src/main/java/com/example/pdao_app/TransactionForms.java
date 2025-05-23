@@ -81,5 +81,9 @@ public class TransactionForms extends AppCompatActivity {
         storeNameText.setText("");
         storeAddressText.setText("");
         descriptionText.setText("");
+
+        Intent intent = new Intent(TransactionForms.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -12,14 +13,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-
+import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameEditText, passwordEditText;
     private Button loginButton, pwdButton, storeButton;
-    private LinearLayout loginLayout, initialButtonsLayout;
+    private ImageButton backButton;
+    private LinearLayout loginLayout, initialLayout;
     private FirebaseAuth mAuth;
 
 
@@ -45,16 +47,22 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
         loginLayout = findViewById(R.id.add_Shadow);
+        backButton = findViewById(R.id.backBtn);
 
         // Initial buttons
         pwdButton = findViewById(R.id.pwdButton);
         storeButton = findViewById(R.id.storeButton);
-        initialButtonsLayout = findViewById(R.id.initial_buttons_layout);
+        initialLayout = findViewById(R.id.initial_layout);
 
         // Handle "PWD" button click
         pwdButton.setOnClickListener(v -> {
-            initialButtonsLayout.setVisibility(View.GONE);
+            initialLayout.setVisibility(View.GONE);
             loginLayout.setVisibility(View.VISIBLE);
+        });
+
+        backButton.setOnClickListener(v -> {
+            initialLayout.setVisibility(View.VISIBLE);
+            loginLayout.setVisibility(View.GONE);
         });
 
         // Optional: Handle "Store" button click
@@ -92,9 +100,9 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, displayName, Toast.LENGTH_LONG).show();
 
                         // Optional: Navigate or finish
-                        // Intent intent = new Intent(LoginActivity.this, PwdUserDashboard.class);
-                        // startActivity(intent);
-                        // finish();
+                        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
                 else {
@@ -103,4 +111,18 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (initialLayout.getVisibility() == View.VISIBLE) {
+            // If the initial layout is visible, show the login layout and hide the initial layout
+            initialLayout.setVisibility(View.GONE);
+            loginLayout.setVisibility(View.VISIBLE);
+        } else {
+            // Handle the case when the login layout is visible (or any other action)
+            //super.onBackPressed(); // This will perform the default back button behavior (exit the activity)
+        }
+    }
+
 }

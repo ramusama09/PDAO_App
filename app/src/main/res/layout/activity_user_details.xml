@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserDetailsActivity"
-    android:background="@color/white">
+    android:background="@color/off_white">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -54,7 +54,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/green"
+        android:background="@drawable/rounded_rectangle"
         android:textColor="@color/white" />
 
 

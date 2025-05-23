@@ -28,16 +28,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/green"
-        app:cardCornerRadius="12dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/off_white"
+        app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/transactionTitle">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_rectangle"
+            android:orientation="vertical"
+            android:padding="16dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="12dp">
 
             <!-- Reference No. -->
             <TextView
@@ -163,6 +171,7 @@
                 app:layout_constraintWidth_percent="0.7"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 
@@ -171,11 +180,11 @@
 
 
     <!-- Submit Button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
+        android:background="@drawable/rounded_rectangle"
         android:text="Submit"
         android:textColor="@color/white"
         android:layout_marginTop="24dp"

@@ -6,39 +6,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    android:background="@color/white">
+    android:background="@color/off_white">
 
-    <!-- Initial Button Layout -->
+    <!-- Welcome + Initial Buttons -->
     <LinearLayout
-        android:id="@+id/initial_buttons_layout"
-        android:layout_width="match_parent"
+        android:id="@+id/initial_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/storeButton"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Store"
-            android:layout_marginEnd="16dp"
-            android:textColor="@color/white"
-            android:background="@drawable/rounded_rectangle"/>
+            android:layout_marginBottom="48dp"
+            android:text="Welcome to PDAO App!"
+            android:textColor="@color/green"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/pwdButton"
+
+        <ImageView
+            android:layout_width="350px"
+            android:layout_height="350px"
+            android:src="@drawable/logo_pdao"
+            android:layout_marginBottom="48dp"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/initial_buttons_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PWD"
-            android:textColor="@color/white"
-            android:background="@drawable/rounded_rectangle"/>
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/storeButton"
+                android:layout_width="400px"
+                android:layout_height="wrap_content"
+                android:text="Store Employee"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/off_white"
+                android:background="@drawable/rounded_rectangle" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/pwdButton"
+                android:layout_width="400px"
+                android:layout_height="wrap_content"
+                android:text="PWD User"
+                android:textColor="@color/off_white"
+                android:background="@drawable/rounded_rectangle" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Login Form Layout (Initially Hidden) -->
+    <!-- Login Form (Initially Hidden) -->
     <LinearLayout
         android:id="@+id/add_Shadow"
         android:layout_width="match_parent"
@@ -52,18 +79,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498">
+        app:layout_constraintVertical_bias="0.5">
 
-        <!-- login form elements remain unchanged -->
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:text="Welcome!"
-            android:textColor="@color/green"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">  <!-- Center the content vertically -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="User Login"
+                android:textColor="@color/green"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@color/off_white"
+                android:src="@drawable/box_arrow_in_left" />
+
+        </LinearLayout>
 
         <!-- Username Field -->
         <LinearLayout
