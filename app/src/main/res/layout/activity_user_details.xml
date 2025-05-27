@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_rectangle"
+        android:background="@drawable/bg_rounded_green_button"
         android:textColor="@color/white" />
 
 

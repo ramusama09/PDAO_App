@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -51,6 +52,7 @@ public class QRScanner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrscanner);
+        EdgeToEdge.enable(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             v.setPadding(
@@ -88,7 +90,7 @@ public class QRScanner extends AppCompatActivity {
                     .alpha(0f)
                     .setDuration(150)
                     .withEndAction(() -> {
-                        flashToggle.setImageResource(isFlashOn ? R.drawable.lightbulb_on : R.drawable.lightbulb);
+                        flashToggle.setImageResource(isFlashOn ? R.drawable.ic_lightbulb_on : R.drawable.ic_lightbulb);
                         camera.getCameraControl().enableTorch(isFlashOn);
 
                         if (isFlashOn) startPulseAnimation();
