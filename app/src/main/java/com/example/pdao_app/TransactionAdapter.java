@@ -1,0 +1,53 @@
+package com.example.pdao_app;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
+
+    private List<Transaction> transactionList;
+
+    public TransactionAdapter(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
+
+    public static class TransactionViewHolder extends RecyclerView.ViewHolder {
+        TextView title, date, amount;
+
+        public TransactionViewHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.text_transaction_title);
+            date = itemView.findViewById(R.id.text_transaction_date);
+            amount = itemView.findViewById(R.id.text_transaction_amount);
+        }
+    }
+
+    @NonNull
+    @Override
+    public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_transaction, parent, false);
+        return new TransactionViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
+        Transaction transaction = transactionList.get(position);
+        holder.title.setText(transaction.getTitle());
+        holder.date.setText(transaction.getDate());
+        holder.amount.setText(transaction.getAmount());
+    }
+
+    @Override
+    public int getItemCount() {
+        return transactionList.size();
+    }
+}
+

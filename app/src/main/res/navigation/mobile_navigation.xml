@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.pdao_app.ui.gallery.GalleryFragment"
+        android:name="com.example.pdao_app.ui.transaction.TransactionFragment"
         android:label="@string/menu_transaction"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_transaction" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_aboutyou"
         android:name="com.example.pdao_app.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_aboutyou"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

@@ -7,6 +7,8 @@
 
     <color name="red">#C40233</color>
     <color name="green">#4CAF50</color>
+
+    <color name="light_green_card">#E3FBE3</color>
     <color name="green_translucent">#CC4CAF50</color>
     <color name="light_green">#8BC34A</color>
     <color name="dark_green">#2E7D32</color>
