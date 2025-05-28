@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_green_card"
     tools:context=".TransactionForms"
     android:padding="16dp">
 
@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/off_white"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,14 +37,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_rounded_green_button"
+            android:background="@drawable/bg_gradient_card_green"
             android:orientation="vertical"
             android:padding="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:padding="8dp">
 
             <!-- Reference No. -->
             <TextView
@@ -184,7 +183,7 @@
         android:id="@+id/submitButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded_green_button"
+        android:background="@drawable/bg_gradient_card_green"
         android:text="Submit"
         android:textColor="@color/white"
         android:layout_marginTop="24dp"

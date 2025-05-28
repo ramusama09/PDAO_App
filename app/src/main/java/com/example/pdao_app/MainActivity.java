@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             // User is signed in
-            //startActivity(new Intent(this, PwdUserDashboard.class));
-            startActivity(new Intent(this, Dashboard.class)); //Remove this once the dashboard is done
+            startActivity(new Intent(this, Dashboard.class));
         } else {
             // User is not signed in
             startActivity(new Intent(this, LoginActivity.class));

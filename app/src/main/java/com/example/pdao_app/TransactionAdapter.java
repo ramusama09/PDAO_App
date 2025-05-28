@@ -19,13 +19,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        TextView title, date, amount;
+        TextView title, date, details;
 
         public TransactionViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.text_transaction_title);
+            title = itemView.findViewById(R.id.text_transaction_store);
             date = itemView.findViewById(R.id.text_transaction_date);
-            amount = itemView.findViewById(R.id.text_transaction_amount);
+            details = itemView.findViewById(R.id.text_transaction_details);
         }
     }
 
@@ -40,9 +40,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
         Transaction transaction = transactionList.get(position);
-        holder.title.setText(transaction.getTitle());
+        holder.title.setText(transaction.getStoreName());
         holder.date.setText(transaction.getDate());
-        holder.amount.setText(transaction.getAmount());
+        holder.details.setText(transaction.getDetails());
     }
 
     @Override

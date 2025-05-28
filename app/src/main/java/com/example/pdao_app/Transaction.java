@@ -1,26 +1,26 @@
 package com.example.pdao_app;
 
 public class Transaction {
-    private String title;
+    private String storeName;
     private String date;
-    private String amount;
+    private String details;
 
-    public Transaction(String title, String date, String amount) {
-        this.title = title;
+    public Transaction(String storeName, String date, String details) {
+        this.storeName = storeName;
         this.date = date;
-        this.amount = amount;
+        this.details = details;
     }
 
-    public String getTitle() {
-        return title;
+    public String getStoreName() {
+        return storeName;
     }
 
     public String getDate() {
         return date;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getDetails() {
+        return details;
     }
 }
 
