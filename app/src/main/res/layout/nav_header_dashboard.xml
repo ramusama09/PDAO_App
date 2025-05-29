@@ -49,16 +49,21 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView">
 
             <TextView
+                android:id="@+id/pwdNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20dp"
                 android:text="PWD COMPLETE NAME"
                 android:textAlignment="center"
+                android:paddingVertical="4dp"
+                android:paddingBottom="12dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/pwdIdTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="16dp"
                 android:text="PWD ID"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />

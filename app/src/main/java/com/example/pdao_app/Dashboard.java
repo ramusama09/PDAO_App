@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
+
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -25,6 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pdao_app.databinding.ActivityDashboardBinding;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Dashboard extends AppCompatActivity {
@@ -63,6 +69,49 @@ public class Dashboard extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
 
         NavigationView navView = findViewById(R.id.nav_view);
+
+        // Get header view
+        View headerView = navigationView.getHeaderView(0);
+
+        // Reference TextViews in header
+        TextView pwdNameTextView = headerView.findViewById(R.id.pwdNameTextView);
+        TextView pwdIdTextView = headerView.findViewById(R.id.pwdIdTextView);
+
+        // Fetch and display user info from Firebase
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Build and show full name
+                String firstName = snapshot.child("firstName").getValue(String.class);
+                String middleName = snapshot.child("middleName").getValue(String.class);
+                String lastName = snapshot.child("lastName").getValue(String.class);
+                String suffix = snapshot.child("suffix").getValue(String.class);
+
+                StringBuilder fullName = new StringBuilder();
+                if (firstName != null) fullName.append(firstName).append(" ");
+                if (middleName != null && !middleName.isEmpty()) fullName.append(middleName).append(" ");
+                if (lastName != null) fullName.append(lastName).append(" ");
+                if (suffix != null && !suffix.isEmpty()) fullName.append(suffix);
+
+                pwdNameTextView.setText(fullName != null ? fullName : "Unknown");
+
+                // Get pwdId from nested "idCards" node
+                String pwdId = snapshot.child("idCards").child("pwdIdNo").getValue(String.class);
+                pwdIdTextView.setText(pwdId != null ? "ID No. " + pwdId : "No record of ID No.");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                pwdNameTextView.setText("Error");
+                pwdIdTextView.setText("");
+            }
+        });
+
+
+
 
         // Inflate footer layout containing the button
         View footerView = getLayoutInflater().inflate(R.layout.nav_logout, navView, false);

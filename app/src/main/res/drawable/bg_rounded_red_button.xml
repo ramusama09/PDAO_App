@@ -6,7 +6,7 @@
     <solid android:color="@color/emergency_red" /> <!-- Change color as needed -->
 
     <!-- Corner radius -->
-    <corners android:radius="16dp" /> <!-- Adjust the corner radius -->
+    <corners android:radius="8dp" /> <!-- Adjust the corner radius -->
 
     <!-- Optional border -->
     <stroke

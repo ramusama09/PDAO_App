@@ -19,12 +19,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        TextView title, date, details;
+        TextView title, date, address, details;
 
         public TransactionViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_transaction_store);
             date = itemView.findViewById(R.id.text_transaction_date);
+            address = itemView.findViewById(R.id.text_transaction_address);
             details = itemView.findViewById(R.id.text_transaction_details);
         }
     }
@@ -41,6 +42,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
         Transaction transaction = transactionList.get(position);
         holder.title.setText(transaction.getStoreName());
+        holder.address.setText(transaction.getAddress());
         holder.date.setText(transaction.getDate());
         holder.details.setText(transaction.getDetails());
     }

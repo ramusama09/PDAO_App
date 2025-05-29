@@ -107,10 +107,11 @@ public class TransactionFragment extends Fragment {
                     String timestampKey = timestampSnapshot.getKey();
                     String storeName = timestampSnapshot.child("storeName").getValue(String.class);
                     String description = timestampSnapshot.child("description").getValue(String.class);
+                    String address = timestampSnapshot.child("address").getValue(String.class);
 
                     try {
                         long timestamp = Long.parseLong(timestampKey);
-                        tempList.add(new TempTransaction(timestamp, storeName, description));
+                        tempList.add(new TempTransaction(timestamp, storeName, address, description));
                     } catch (NumberFormatException e) {
                         // Skip invalid timestamps
                     }
@@ -121,8 +122,11 @@ public class TransactionFragment extends Fragment {
 
                 for (TempTransaction temp : tempList) {
                     String formattedDate = formatTimestamp(String.valueOf(temp.timestamp));
-                    transactionList.add(new Transaction(temp.storeName, formattedDate, temp.description));
+                    transactionList.add(new Transaction(temp.storeName, temp.address, formattedDate, temp.description));
                 }
+
+                fullTransactionList.clear();
+                fullTransactionList.addAll(transactionList);
 
                 adapter.notifyDataSetChanged();
 
@@ -164,11 +168,13 @@ public class TransactionFragment extends Fragment {
     private static class TempTransaction {
         long timestamp;
         String storeName;
+        String address;
         String description;
 
-        TempTransaction(long timestamp, String storeName, String description) {
+        TempTransaction(long timestamp, String storeName, String address, String description) {
             this.timestamp = timestamp;
             this.storeName = storeName;
+            this.address = address;
             this.description = description;
         }
     }

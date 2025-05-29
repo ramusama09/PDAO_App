@@ -1,7 +1,10 @@
 package com.example.pdao_app;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
 
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
             loginLayout.setVisibility(View.VISIBLE);
         });
 
+
+
         backButton.setOnClickListener(v -> {
             initialLayout.setVisibility(View.VISIBLE);
             loginLayout.setVisibility(View.GONE);
@@ -72,6 +79,27 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, QRScanner.class);
             startActivity(intent);
             finish();
+        });
+
+        passwordEditText.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_END = 2; // right drawable
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
+                    // Toggle password visibility
+                    if (passwordEditText.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                        // Show password
+                        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        passwordEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_hide, 0);
+                    } else {
+                        // Hide password
+                        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        passwordEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_show, 0);
+                    }
+                    passwordEditText.setSelection(passwordEditText.length());
+                    return true;
+                }
+            }
+            return false;
         });
 
         // Handle login

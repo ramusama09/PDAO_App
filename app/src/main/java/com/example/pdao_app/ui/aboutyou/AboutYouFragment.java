@@ -1,4 +1,4 @@
-package com.example.pdao_app.ui.slideshow;
+package com.example.pdao_app.ui.aboutyou;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.pdao_app.databinding.FragmentSlideshowBinding;
+import com.example.pdao_app.databinding.FragmentAboutyouBinding;
 
-public class SlideshowFragment extends Fragment {
+public class AboutYouFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentAboutyouBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        AboutYouViewModel slideshowViewModel =
+                new ViewModelProvider(this).get(AboutYouViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentAboutyouBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textSlideshow;

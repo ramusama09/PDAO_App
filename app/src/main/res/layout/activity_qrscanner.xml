@@ -18,7 +18,20 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.25" >
+    </androidx.camera.view.PreviewView>
+
+    <ImageView
+        android:id="@+id/frameOverlay"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:src="@drawable/ic_frame"
+        android:layout_margin="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="@id/previewView"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintStart_toStartOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView" />
 
     <TextView
         android:id="@+id/instructionText"
