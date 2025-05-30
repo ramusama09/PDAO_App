@@ -1,0 +1,10 @@
+<!-- res/layout/spinner_sex_item.xml -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinner_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:textColor="@color/dark_green"
+    android:textSize="16sp"
+    android:background="@color/off_white"
+    android:gravity="center_vertical"/>

@@ -1,23 +1,46 @@
 package com.example.pdao_app.ui.home;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.pdao_app.R;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.pdao_app.databinding.DialogShowIdBinding;
+import com.example.pdao_app.databinding.DialogUserInfoBinding;
 import com.example.pdao_app.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
+import com.bumptech.glide.Glide;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,37 +54,29 @@ public class HomeFragment extends Fragment {
         TextView emailTextView = binding.userEmail;
         TextView disabilityTextView = binding.userDisability;
 
-        // Fetch current user ID
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
 
         Button showDialogBtn = binding.showDialogButton;
         showDialogBtn.setOnClickListener(v -> showCustomDialog());
 
+        Button showIdBtn = binding.showIdButton;
+        showIdBtn.setOnClickListener(v -> showIDDialog());
 
+
+        // Fetch and display user profile
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Safely extract each field manually
                 String firstName = snapshot.child("firstName").getValue(String.class);
-                firstName = (firstName != null) ? firstName : "Unknown";
-
                 String contactNum = snapshot.child("contactNumber").getValue(String.class);
-                contactNum = (contactNum != null) ? contactNum : "Unknown";
-
                 String disability = snapshot.child("disabilityType").getValue(String.class);
-                disability = (disability != null) ? disability : "Unknown";
-
                 String email = snapshot.child("email").getValue(String.class);
-                email = (email != null) ? email : "Unknown";
 
-
-
-                nameTextView.setText("Welcome, " + firstName + "!");
-                contactTextView.setText(contactNum);
-                disabilityTextView.setText(disability);
-                emailTextView.setText(email);
-
+                nameTextView.setText("Welcome, " + (firstName != null ? firstName : "Unknown") + "!");
+                contactTextView.setText(contactNum != null ? contactNum : "Unknown");
+                disabilityTextView.setText(disability != null ? disability : "Unknown");
+                emailTextView.setText(email != null ? email : "Unknown");
             }
 
             @Override
@@ -71,28 +86,339 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // 🔹 Fetch and display latest transaction
+        fetchLatestTransaction(root);
+
         return root;
     }
 
+
     private void showCustomDialog() {
-        // Inflate the dialog layout using the fragment's inflater
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_user_info, null);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
 
-        TextView dialogMessage = dialogView.findViewById(R.id.dialog_message);
-        Button closeButton = dialogView.findViewById(R.id.dialog_close_btn);
+        // Inflate the dialog layout manually
+        DialogUserInfoBinding dialogBinding = DialogUserInfoBinding.inflate(getLayoutInflater());
 
-        // Optional: dynamic content
-        dialogMessage.setText("This is a custom dialog inside a Fragment using ViewBinding.");
+        // Create a Dialog instance
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // Remove default title
 
-        // Build and show the dialog
-        android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(requireContext())
-                .setView(dialogView)
-                .create();
+        // Set the content view to the inflated binding root
+        dialog.setContentView(dialogBinding.getRoot());
 
-        closeButton.setOnClickListener(v -> dialog.dismiss());
+        // Set transparent background so rounded corners work (assuming your root layout drawable has rounded corners)
+        if (dialog.getWindow() != null) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = (int) (displayMetrics.widthPixels * 0.9);  // 90% of screen width
+            int height = (int) (displayMetrics.heightPixels * 0.85); // 85% of screen height
+
+            dialog.getWindow().setLayout(
+                    width,
+                    height
+            );
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+
+        // Setup sex spinner
+        Spinner sexSpinner = dialogBinding.sexSpinner;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.spinner_layout,
+                Arrays.asList("Male", "Female")
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_sex_item);
+        sexSpinner.setAdapter(adapter);
+
+        // Load user data and pre-fill fields
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dialogBinding.firstName.setText(snapshot.child("firstName").getValue(String.class));
+                dialogBinding.middleName.setText(snapshot.child("middleName").getValue(String.class));
+                dialogBinding.lastName.setText(snapshot.child("lastName").getValue(String.class));
+                dialogBinding.suffix.setText(snapshot.child("suffix").getValue(String.class));
+                dialogBinding.contactNum.setText(snapshot.child("contactNumber").getValue(String.class));
+                dialogBinding.birthDate.setText(snapshot.child("birthDate").getValue(String.class));
+                dialogBinding.address1.setText(snapshot.child("addressLine1").getValue(String.class));
+                dialogBinding.address2.setText(snapshot.child("addressLine2").getValue(String.class));
+                dialogBinding.emergencyName.setText(snapshot.child("emergencyContactName").getValue(String.class));
+                dialogBinding.emergencyNumber.setText(snapshot.child("emergencyContactNumber").getValue(String.class));
+
+                // Set spinner selection
+                String sexValue = snapshot.child("sex").getValue(String.class);
+                if (sexValue != null) {
+                    int spinnerPosition = adapter.getPosition(sexValue);
+                    sexSpinner.setSelection(spinnerPosition);
+                }
+
+                // Calculate and display age if birthdate present
+                String birthDateStr = snapshot.child("birthDate").getValue(String.class);
+                if (birthDateStr != null && !birthDateStr.isEmpty()) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", new Locale("en", "PH"));
+                        Date birthDate = sdf.parse(birthDateStr);
+                        Calendar dob = Calendar.getInstance();
+                        dob.setTime(birthDate);
+
+                        Calendar today = Calendar.getInstance();
+                        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+                            age--;
+                        }
+                        dialogBinding.ageText.setText(String.valueOf(age));
+                    } catch (Exception e) {
+                        dialogBinding.ageText.setText("");
+                    }
+                }
+
+                // DatePicker for birthDate field
+                dialogBinding.birthDate.setOnClickListener(v -> {
+                    final Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog datePicker = new DatePickerDialog(
+                            requireContext(),
+                            (view, selectedYear, selectedMonth, selectedDay) -> {
+                                String dateStr = String.format(new Locale("en", "PH"), "%04d-%02d-%02d",
+                                        selectedYear, selectedMonth + 1, selectedDay);
+                                dialogBinding.birthDate.setText(dateStr);
+
+                                Calendar dob = Calendar.getInstance();
+                                dob.set(selectedYear, selectedMonth, selectedDay);
+                                Calendar today = Calendar.getInstance();
+                                int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                                if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+                                    age--;
+                                }
+                                dialogBinding.ageText.setText(String.valueOf(age));
+                            },
+                            year, month, day
+                    );
+                    datePicker.show();
+                });
+
+                // Save button click listener with validation
+                dialogBinding.saveBtn.setOnClickListener(v -> {
+                    // Validation (same as before, required fields only)
+                    if (dialogBinding.firstName.getText().toString().trim().isEmpty()) {
+                        dialogBinding.firstName.setError("First name is required");
+                        dialogBinding.firstName.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.lastName.getText().toString().trim().isEmpty()) {
+                        dialogBinding.lastName.setError("Last name is required");
+                        dialogBinding.lastName.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.contactNum.getText().toString().trim().isEmpty()) {
+                        dialogBinding.contactNum.setError("Contact Number is required");
+                        dialogBinding.contactNum.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.birthDate.getText().toString().trim().isEmpty()) {
+                        dialogBinding.birthDate.setError("Birth date is required");
+                        dialogBinding.birthDate.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.sexSpinner.getSelectedItem() == null ||
+                            dialogBinding.sexSpinner.getSelectedItem().toString().trim().isEmpty()) {
+                        Toast.makeText(getContext(), "Please select sex", Toast.LENGTH_SHORT).show();
+                        dialogBinding.sexSpinner.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.address1.getText().toString().trim().isEmpty()) {
+                        dialogBinding.address1.setError("Address is required");
+                        dialogBinding.address1.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.address2.getText().toString().trim().isEmpty()) {
+                        dialogBinding.address2.setError("Address is required");
+                        dialogBinding.address2.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.emergencyName.getText().toString().trim().isEmpty()) {
+                        dialogBinding.emergencyName.setError("Emergency contact name is required");
+                        dialogBinding.emergencyName.requestFocus();
+                        return;
+                    }
+                    if (dialogBinding.emergencyNumber.getText().toString().trim().isEmpty()) {
+                        dialogBinding.emergencyNumber.setError("Emergency contact number is required");
+                        dialogBinding.emergencyNumber.requestFocus();
+                        return;
+                    }
+
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("firstName", dialogBinding.firstName.getText().toString().trim());
+                    updates.put("middleName", dialogBinding.middleName.getText().toString().trim()); // optional
+                    updates.put("lastName", dialogBinding.lastName.getText().toString().trim());
+                    updates.put("suffix", dialogBinding.suffix.getText().toString().trim()); // optional
+                    updates.put("contactNumber", dialogBinding.contactNum.getText().toString().trim());
+                    updates.put("birthDate", dialogBinding.birthDate.getText().toString().trim());
+                    updates.put("age", dialogBinding.ageText.getText().toString().trim());
+                    updates.put("sex", dialogBinding.sexSpinner.getSelectedItem().toString());
+                    updates.put("addressLine1", dialogBinding.address1.getText().toString().trim());
+                    updates.put("addressLine2", dialogBinding.address2.getText().toString().trim()); // optional
+                    updates.put("emergencyContactName", dialogBinding.emergencyName.getText().toString().trim());
+                    updates.put("emergencyContactNumber", dialogBinding.emergencyNumber.getText().toString().trim());
+
+                    userRef.updateChildren(updates)
+                            .addOnSuccessListener(aVoid ->
+                                    Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(getContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+                    dialog.dismiss();
+                });
+
+                dialogBinding.dialogCloseBtn.setOnClickListener(v -> dialog.dismiss());
+
+                // Show the dialog after data is loaded and listeners set
+                dialog.show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error fetching profile", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showIDDialog() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference idCardsRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("idCards");
+
+        // Inflate your custom dialog layout binding for ID display
+        DialogShowIdBinding dialogBinding = DialogShowIdBinding.inflate(getLayoutInflater());
+
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // no default title
+
+        dialog.setContentView(dialogBinding.getRoot());
+
+        if (dialog.getWindow() != null) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = (int) (displayMetrics.widthPixels * 0.9);
+            int height = (int) (displayMetrics.heightPixels * 0.7);
+
+            dialog.getWindow().setLayout(width, height);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        // Load frontId and backId images using Glide
+        idCardsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String frontIdUrl = snapshot.child("frontID").getValue(String.class);
+                String backIdUrl = snapshot.child("backID").getValue(String.class);
+
+                // Load images with Glide into ImageViews (assuming you have these in dialog layout)
+                if (frontIdUrl != null && !frontIdUrl.isEmpty()) {
+                    Glide.with(requireContext())
+                            .load(frontIdUrl)
+                            .placeholder(R.drawable.placeholder_id)
+                            .error(R.drawable.error_image)
+                            .into(dialogBinding.frontIdImage);
+                }
+
+                if (backIdUrl != null && !backIdUrl.isEmpty()) {
+                    Glide.with(requireContext())
+                            .load(backIdUrl)
+                            .placeholder(R.drawable.placeholder_id)
+                            .error(R.drawable.error_image)
+                            .into(dialogBinding.backIdImage);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(requireContext(), "Failed to load ID images", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Close button
+        dialogBinding.dialogIDCloseBtn.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
+
+
+
+    private void fetchLatestTransaction(View root) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference transRef = FirebaseDatabase.getInstance()
+                .getReference("transactions").child(uid);
+
+        // Find views from the transaction card
+        TextView transactionDate = root.findViewById(R.id.transaction_date);
+        TextView transactionStore = root.findViewById(R.id.transaction_store);
+        TextView transactionAddress = root.findViewById(R.id.text_transaction_address);
+        TextView transactionDesc = root.findViewById(R.id.transaction_desc);
+        View transactionCard = root.findViewById(R.id.transaction_card);
+
+        // Hide card initially
+        transactionCard.setVisibility(View.GONE);
+
+        transRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    DataSnapshot latestSnapshot = null;
+                    String latestTimestamp = "";
+
+                    for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
+                        String key = transactionSnapshot.getKey(); // e.g., "20250528110403"
+                        if (key != null && key.compareTo(latestTimestamp) > 0) {
+                            latestTimestamp = key;
+                            latestSnapshot = transactionSnapshot;
+                        }
+                    }
+
+                    if (latestSnapshot != null) {
+                        String address = latestSnapshot.child("address").getValue(String.class);
+                        String description = latestSnapshot.child("description").getValue(String.class);
+                        String storeName = latestSnapshot.child("storeName").getValue(String.class);
+
+                        // Format and set values
+                        transactionDate.setText(formatTimestamp(latestTimestamp));
+                        transactionStore.setText(storeName != null ? storeName : "N/A");
+                        transactionAddress.setText(address != null ? address : "N/A");
+                        transactionDesc.setText(description != null ? description : "N/A");
+
+                        transactionCard.setVisibility(View.VISIBLE); // show card now that data is loaded
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Transaction", "Error fetching transactions", error.toException());
+            }
+        });
+    }
+
+
+
+
+    private String formatTimestamp(String raw) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+            Date date = inputFormat.parse(raw);
+            return outputFormat.format(date);
+        } catch (java.text.ParseException e) {
+            return raw; // fallback to raw if parsing fails
+        }
+    }
+
+
+
+
 
 
 

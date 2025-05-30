@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_rounded_dialog">
+
+    <!-- Front ID with border frame -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <!-- Border ImageView fills whole FrameLayout -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_search_bar"
+            android:contentDescription="Front ID Border" />
+
+        <!-- Actual image smaller with margin to show border -->
+        <ImageView
+            android:id="@+id/front_id_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Front ID" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <!-- Back ID with border frame -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <!-- Border ImageView fills whole FrameLayout -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_search_bar"
+            android:contentDescription="Back ID Border" />
+
+        <!-- Actual image smaller with margin to show border -->
+        <ImageView
+            android:id="@+id/back_id_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Back ID" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dialog_ID_close_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:textColor="@color/off_white"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_gradient_card_red"/>
+
+
+</LinearLayout>

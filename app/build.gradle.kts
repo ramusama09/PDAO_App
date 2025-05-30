@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.pdao_app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 7
-        versionName = "1.4.1"
+        versionCode = 8
+        versionName = "1.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,6 +46,13 @@ dependencies {
     implementation ("androidx.core:core:1.9.0")
     implementation ("androidx.appcompat:appcompat:1.6.0")
 
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+
+
+
+
 // ML Kit Barcode Scanning
     implementation ("com.google.mlkit:barcode-scanning:17.2.0")
 
@@ -69,3 +76,4 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-analytics")
 }
+

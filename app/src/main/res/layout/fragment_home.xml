@@ -8,13 +8,14 @@
     android:padding="16dp"
     tools:context=".ui.home.HomeFragment">
 
+    <!-- User Info Card -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/user_card"
+        android:id="@+id/user_info_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
-        android:layout_marginTop="24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -61,21 +62,142 @@
                 android:layout_height="wrap_content"
                 android:text="Email: example@mail.com"
                 android:textSize="16sp"
-                android:textColor="@color/hint_green" />
+                android:textColor="@color/hint_green"/>
 
+            <Button
+                android:id="@+id/show_id_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show ID"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/dark_green"
+                android:textColor="@color/light_green_card"
+                app:cornerRadius="8dp"/>
 
             <Button
                 android:id="@+id/show_dialog_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show Info Dialog"
+                android:text="Edit Profile Details"
+                android:layout_marginTop="4dp"
                 android:backgroundTint="@color/dark_green"
-                android:textColor="@android:color/white"
-                app:cornerRadius="8dp"
-                app:layout_constraintTop_toBottomOf="@id/user_card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="24dp"/>
+                android:textColor="@color/light_green_card"
+                app:cornerRadius="8dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Transaction Info Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transaction_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/user_info_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_search_bar"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:id="@+id/transaction_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Transaction on "
+                    android:textColor="@color/dark_green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/transaction_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="March 12, 2025"
+                    android:textColor="@color/dark_green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_store_mini" />
+
+                <TextView
+                    android:id="@+id/transaction_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ABC Store"
+                    android:textColor="@color/green"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_location" />
+
+                <TextView
+                    android:id="@+id/text_transaction_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parañaque"
+                    android:textColor="@color/green"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:textStyle="bold"
+                android:textColor="@color/dark_green"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/transaction_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insert Desc here"
+
+                android:textColor="@color/dark_green"
+                android:textSize="12sp" />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

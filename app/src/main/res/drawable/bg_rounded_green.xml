@@ -9,7 +9,7 @@
     <corners android:radius="8dp" /> <!-- Adjust the corner radius -->
 
     <!-- Optional border -->
-    <stroke
+    <!--<stroke
         android:width="1dp"
-        android:color="@color/black" /> <!-- Optional: set to transparent to remove -->
+        android:color="@color/black" />--> <!-- Optional: set to transparent to remove -->
 </shape>
