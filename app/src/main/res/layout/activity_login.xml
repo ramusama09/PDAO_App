@@ -34,7 +34,7 @@
         <ImageView
             android:layout_width="350px"
             android:layout_height="350px"
-            android:src="@drawable/logo_pdao"
+            android:src="@drawable/logo_pdao_new"
             android:layout_marginBottom="48dp"/>
 
 

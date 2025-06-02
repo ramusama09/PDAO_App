@@ -7,13 +7,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -76,6 +80,7 @@ public class Dashboard extends AppCompatActivity {
         // Reference TextViews in header
         TextView pwdNameTextView = headerView.findViewById(R.id.pwdNameTextView);
         TextView pwdIdTextView = headerView.findViewById(R.id.pwdIdTextView);
+        ImageView profileImageView = headerView.findViewById(R.id.imageView);
 
         // Fetch and display user info from Firebase
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -101,6 +106,29 @@ public class Dashboard extends AppCompatActivity {
                 // Get pwdId from nested "idCards" node
                 String pwdId = snapshot.child("idCards").child("pwdIdNo").getValue(String.class);
                 pwdIdTextView.setText(pwdId != null ? "ID No. " + pwdId : "No record of ID No.");
+
+                DatabaseReference idCardsRef = userRef.child("idCards");
+
+                idCardsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String photoIdUrl = snapshot.child("photoID").getValue(String.class);
+
+                        if (photoIdUrl != null && !photoIdUrl.isEmpty()) {
+                            Glide.with(Dashboard.this)  // Use the Activity context here
+                                    .load(photoIdUrl)
+                                    .placeholder(R.drawable.placeholder_id)
+                                    .error(R.drawable.error_image)
+                                    .into(profileImageView);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(Dashboard.this, "Failed to load ID images", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
 
             @Override

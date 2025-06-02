@@ -152,8 +152,15 @@ public class TransactionFragment extends Fragment {
             transactionList.addAll(fullTransactionList);
         } else {
             String lowerCaseQuery = query.toLowerCase();
+
             for (Transaction t : fullTransactionList) {
-                if (t.getStoreName().toLowerCase().contains(lowerCaseQuery)) {
+                String store = t.getStoreName() != null ? t.getStoreName().toLowerCase() : "";
+                String address = t.getAddress() != null ? t.getAddress().toLowerCase() : "";
+                String date = t.getDate() != null ? t.getDate().toLowerCase() : "";
+                String desc = t.getDetails() != null ? t.getDetails().toLowerCase() : "";
+
+                if (store.contains(lowerCaseQuery) || address.contains(lowerCaseQuery)
+                        || date.contains(lowerCaseQuery) || desc.contains(lowerCaseQuery)) {
                     transactionList.add(t);
                 }
             }
@@ -161,6 +168,8 @@ public class TransactionFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
+
+
 
 
 

@@ -29,38 +29,22 @@
         <EditText
             android:id="@+id/edit_search"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/bg_search_bar"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="16dp"
-            android:hint="Search by store"
+            android:hint="Search for a transaction"
             android:textColor="@color/dark_green"
             android:textColorHint="@color/hint_green"
             android:inputType="text"
             android:padding="8dp"
             android:paddingStart="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_transactions"
-            app:layout_constraintEnd_toStartOf="@id/button_filter"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_header"
-            app:layout_constraintVertical_weight="1"
-            android:layout_marginBottom="8dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_rounded_red_button"
-            android:text="Filter"
-            android:textColor="@color/off_white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/edit_search"
-            app:layout_constraintTop_toBottomOf="@id/text_header" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_transactions"
@@ -69,7 +53,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/button_filter"
+            app:layout_constraintTop_toBottomOf="@id/edit_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

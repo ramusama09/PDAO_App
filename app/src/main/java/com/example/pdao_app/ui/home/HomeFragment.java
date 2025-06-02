@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +15,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pdao_app.R;
 
 import androidx.annotation.NonNull;
@@ -36,6 +40,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 public class HomeFragment extends Fragment {
 
@@ -49,13 +55,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        TextView nameTextView = binding.userName;
-        TextView contactTextView = binding.userContact;
-        TextView emailTextView = binding.userEmail;
-        TextView disabilityTextView = binding.userDisability;
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
 
         Button showDialogBtn = binding.showDialogButton;
         showDialogBtn.setOnClickListener(v -> showCustomDialog());
@@ -63,8 +64,33 @@ public class HomeFragment extends Fragment {
         Button showIdBtn = binding.showIdButton;
         showIdBtn.setOnClickListener(v -> showIDDialog());
 
+        SwipeRefreshLayout swipeRefreshLayout = binding.swipeRefreshLayout;
 
-        // Fetch and display user profile
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            fetchUserInfo();
+            fetchLatestTransaction(root);
+
+            // Simulate loading for 1 second (or stop when data is actually loaded)
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                swipeRefreshLayout.setRefreshing(false);
+            }, 1000);
+        });
+
+        fetchUserInfo();
+        fetchLatestTransaction(root);
+
+        return root;
+    }
+
+    private void fetchUserInfo() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
+        TextView nameTextView = binding.userName;
+        TextView contactTextView = binding.userContact;
+        TextView emailTextView = binding.userEmail;
+        TextView disabilityTextView = binding.userDisability;
+
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -85,12 +111,8 @@ public class HomeFragment extends Fragment {
                 contactTextView.setText("");
             }
         });
-
-        // 🔹 Fetch and display latest transaction
-        fetchLatestTransaction(root);
-
-        return root;
     }
+
 
 
     private void showCustomDialog() {
@@ -292,12 +314,10 @@ public class HomeFragment extends Fragment {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference idCardsRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("idCards");
 
-        // Inflate your custom dialog layout binding for ID display
         DialogShowIdBinding dialogBinding = DialogShowIdBinding.inflate(getLayoutInflater());
 
         Dialog dialog = new Dialog(requireContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // no default title
-
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogBinding.getRoot());
 
         if (dialog.getWindow() != null) {
@@ -310,20 +330,21 @@ public class HomeFragment extends Fragment {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        // Load frontId and backId images using Glide
+        // Load frontId and backId images
         idCardsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String frontIdUrl = snapshot.child("frontID").getValue(String.class);
                 String backIdUrl = snapshot.child("backID").getValue(String.class);
 
-                // Load images with Glide into ImageViews (assuming you have these in dialog layout)
                 if (frontIdUrl != null && !frontIdUrl.isEmpty()) {
                     Glide.with(requireContext())
                             .load(frontIdUrl)
                             .placeholder(R.drawable.placeholder_id)
                             .error(R.drawable.error_image)
                             .into(dialogBinding.frontIdImage);
+
+                    dialogBinding.frontIdImage.setOnClickListener(v -> showImagePopup(frontIdUrl));
                 }
 
                 if (backIdUrl != null && !backIdUrl.isEmpty()) {
@@ -332,6 +353,8 @@ public class HomeFragment extends Fragment {
                             .placeholder(R.drawable.placeholder_id)
                             .error(R.drawable.error_image)
                             .into(dialogBinding.backIdImage);
+
+                    dialogBinding.backIdImage.setOnClickListener(v -> showImagePopup(backIdUrl));
                 }
             }
 
@@ -341,15 +364,49 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Close button
         dialogBinding.dialogIDCloseBtn.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
 
+    private void showImagePopup(String imageUrl) {
+        Dialog dialog = new Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.popup_image);
+
+        ImageView popupImageView = dialog.findViewById(R.id.popup_image_view);
+
+        // Apply rotation
+        popupImageView.setRotation(90f);
+
+        // Get screen dimensions and manually swap width and height
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+
+        // Swap dimensions to fit landscape orientation
+        ViewGroup.LayoutParams layoutParams = popupImageView.getLayoutParams();
+        layoutParams.width = screenHeight;
+        layoutParams.height = screenWidth;
+        popupImageView.setLayoutParams(layoutParams);
+
+        Glide.with(requireContext())
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.placeholder_id)
+                .error(R.drawable.error_image)
+                .into(popupImageView);
+
+        popupImageView.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
 
 
-    private void fetchLatestTransaction(View root) {
+
+
+
+    public void fetchLatestTransaction(View root) {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference transRef = FirebaseDatabase.getInstance()
                 .getReference("transactions").child(uid);
