@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_change_email_password"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded_dialog"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/title_change_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Account Email"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_green"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- New Email -->
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="New Email"
+        android:textColor="@color/dark_green"
+        android:textColorHint="@color/hint_green"
+        android:background="@drawable/bg_rounded_white"
+        android:inputType="textEmailAddress"
+        android:drawableEnd="@drawable/ic_email"
+        android:paddingEnd="14dp"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Current Password -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/edit_current_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:inputType="textPassword"
+            android:background="@drawable/bg_rounded_white"
+            android:paddingEnd="50dp"
+            android:padding="10dp"
+            android:textColor="@color/dark_green"
+            android:textColorHint="@color/hint_green" />
+
+        <ImageView
+            android:id="@+id/toggle_current_password"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_show_dark_green"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp" />
+    </RelativeLayout>
+
+
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/off_white"
+            android:backgroundTint="@color/emergency_red"
+            android:layout_marginEnd="8dp"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:textColor="@color/off_white"
+            android:backgroundTint="@color/dark_green"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+</LinearLayout>

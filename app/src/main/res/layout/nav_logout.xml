@@ -7,7 +7,7 @@
     android:gravity="center">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/nav_footer_button"
+        android:id="@+id/nav_footer_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout"
@@ -17,5 +17,33 @@
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nav_footer_change_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_gradient_card_green"
+        android:text="Change Account Email"
+        android:textColor="@color/off_white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/nav_footer_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nav_footer_change_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_gradient_card_green"
+        android:text="Change Password"
+        android:textColor="@color/off_white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/nav_footer_change_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
