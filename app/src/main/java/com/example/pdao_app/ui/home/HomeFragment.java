@@ -1,5 +1,8 @@
 package com.example.pdao_app.ui.home;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -90,6 +93,8 @@ public class HomeFragment extends Fragment {
         TextView contactTextView = binding.userContact;
         TextView emailTextView = binding.userEmail;
         TextView disabilityTextView = binding.userDisability;
+        TextView idStatusTextView = binding.userIdStatus;
+        Button idButton = binding.showIdButton;
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -103,15 +108,63 @@ public class HomeFragment extends Fragment {
                 contactTextView.setText(contactNum != null ? contactNum : "Unknown");
                 disabilityTextView.setText(disability != null ? disability : "Unknown");
                 emailTextView.setText(email != null ? email : "Unknown");
+
+                // -------- ID CARD VALIDATION LOGIC --------
+                DataSnapshot idCardSnapshot = snapshot.child("idCards");
+                if (!idCardSnapshot.exists()) {
+                    idStatusTextView.setText("No ID card found.");
+                    idButton.setVisibility(View.GONE);
+                    return;
+                }
+
+                String expirationDateStr = idCardSnapshot.child("expirationDate").getValue(String.class);
+                String pwdIdNo = idCardSnapshot.child("pwdIdNo").getValue(String.class);
+
+                if (expirationDateStr == null || expirationDateStr.isEmpty()) {
+                    idStatusTextView.setText("No expiration date found.");
+                    return;
+                }
+
+                if (pwdIdNo == null || pwdIdNo.isEmpty()) {
+                    idStatusTextView.setText("PWD ID Number not found.");
+                    return;
+                }
+
+                // Parse expiration date and calculate days remaining
+                try {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    Date expirationDate = inputFormat.parse(expirationDateStr);
+                    Date currentDate = new Date();
+
+                    if (expirationDate != null) {
+                        long diffMillis = expirationDate.getTime() - currentDate.getTime();
+                        long daysRemaining = diffMillis / (1000 * 60 * 60 * 24);
+
+                        if (daysRemaining < 0) {
+                            idStatusTextView.setText("Status: Expired\nExpired " + Math.abs(daysRemaining) + " day(s) ago");
+                            idButton.setVisibility(View.GONE); // Optional: hide button if expired
+                        } else {
+                            idStatusTextView.setText("Status: Valid\n" + daysRemaining + " day(s) remaining");
+                            idButton.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        idStatusTextView.setText("Invalid expiration date format.");
+                    }
+                } catch (Exception e) {
+                    idStatusTextView.setText("Failed to parse expiration date.");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 nameTextView.setText("Error loading user");
                 contactTextView.setText("");
+                idStatusTextView.setText("Error fetching ID card data");
             }
         });
     }
+
+
 
 
 
@@ -419,7 +472,7 @@ public class HomeFragment extends Fragment {
         View transactionCard = root.findViewById(R.id.transaction_card);
 
         // Hide card initially
-        transactionCard.setVisibility(View.GONE);
+        transactionCard.setVisibility(GONE);
 
         transRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -447,7 +500,7 @@ public class HomeFragment extends Fragment {
                         transactionAddress.setText(address != null ? address : "N/A");
                         transactionDesc.setText(description != null ? description : "N/A");
 
-                        transactionCard.setVisibility(View.VISIBLE); // show card now that data is loaded
+                        transactionCard.setVisibility(VISIBLE); // show card now that data is loaded
                     }
                 }
             }
@@ -459,13 +512,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
-
     private String formatTimestamp(String raw) {
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
-            SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             Date date = inputFormat.parse(raw);
             return outputFormat.format(date);
         } catch (java.text.ParseException e) {

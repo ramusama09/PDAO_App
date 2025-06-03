@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:text="Parañaque"
                     android:textColor="@color/green"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="May 25, 2025 - 11:24 AM"
                     android:textColor="@color/green"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
