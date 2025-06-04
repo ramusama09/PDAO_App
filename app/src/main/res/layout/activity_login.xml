@@ -168,7 +168,7 @@
             android:layout_gravity="end"
             android:layout_marginBottom="24dp"
             android:text="Forgot Password?"
-            android:textColor="@color/off_white"
+            android:textColor="@color/emergency_red"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
