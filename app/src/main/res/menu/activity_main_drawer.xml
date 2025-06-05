@@ -12,9 +12,11 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_transaction"
             android:title="@string/menu_transaction" />
-        <item
+
+        <!--Uncomment if you need more menu-->
+        <!--<item
             android:id="@+id/nav_aboutyou"
             android:icon="@drawable/ic_menu_about_you"
-            android:title="@string/menu_aboutyou" />
+            android:title="@string/menu_aboutyou" />-->
     </group>
 </menu>
