@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.widget.*;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +29,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView ageText;
     private Button signUpButton;
     private ImageView togglePasswordIcon, toggleConfirmPasswordIcon;
+    private LinearLayout backButton;
 
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
@@ -35,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -62,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         emergencyName = findViewById(R.id.emergency_name);
         emergencyNumber = findViewById(R.id.emergency_number);
         signUpButton = findViewById(R.id.signup_button);
+        backButton = findViewById(R.id.backBtn);
 
         // Setup spinner options for sex
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -81,6 +86,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Sign-up button click listener
         signUpButton.setOnClickListener(v -> registerUser());
+
+        backButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
+
     }
 
     private void showDatePicker() {
@@ -114,58 +125,94 @@ public class SignUpActivity extends AppCompatActivity {
         String emergencyNameInput = emergencyName.getText().toString().trim();
         String emergencyNumberInput = emergencyNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(emailInput) || TextUtils.isEmpty(passwordInput)) {
-            Toast.makeText(this, "Email and password are required.", Toast.LENGTH_SHORT).show();
+
+        if (TextUtils.isEmpty(firstNameInput)) {
+            firstName.setError("First name is required");
+            firstName.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(firstNameInput) || TextUtils.isEmpty(lastNameInput)) {
-            Toast.makeText(this, "First and last name are required.", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(lastNameInput)) {
+            lastName.setError("Last name is required");
+            lastName.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(contactNumberInput)) {
-            Toast.makeText(this, "Contact number is required.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(address1Input) || TextUtils.isEmpty(address2Input)) {
-            Toast.makeText(this, "Complete address is required.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(birthDateInput)) {
-            Toast.makeText(this, "Birth date is required.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(emergencyNameInput) || TextUtils.isEmpty(emergencyNumberInput)) {
-            Toast.makeText(this, "Emergency contact name and number are required.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (passwordInput.length() < 6) {
-            Toast.makeText(this, "Password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!passwordInput.equals(confirmPasswordInput)) {
-            Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!isPasswordStrong(passwordInput)) {
-            Toast.makeText(this, "Password must contain uppercase, lowercase, number, and special character.", Toast.LENGTH_SHORT).show();
+            contactNum.setError("Contact number is required");
+            contactNum.requestFocus();
             return;
         }
 
         if (!isValidPhoneNumber(contactNumberInput)) {
-            Toast.makeText(this, "Enter a valid contact number (e.g. 09XXXXXXXXX).", Toast.LENGTH_SHORT).show();
+            contactNum.setError("Enter a valid contact number (e.g. 09XXXXXXXXX)");
+            contactNum.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(address1Input)) {
+            address1.setError("Address Line 1 is required");
+            address1.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(address2Input)) {
+            address2.setError("Address Line 2 is required");
+            address2.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(birthDateInput)) {
+            birthDate.setError("Birth date is required");
+            birthDate.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(emergencyNameInput)) {
+            emergencyName.setError("Emergency contact name is required");
+            emergencyName.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(emergencyNumberInput)) {
+            emergencyNumber.setError("Emergency contact number is required");
+            emergencyNumber.requestFocus();
             return;
         }
 
         if (!isValidPhoneNumber(emergencyNumberInput)) {
-            Toast.makeText(this, "Enter a valid emergency contact number (e.g. 09XXXXXXXXX).", Toast.LENGTH_SHORT).show();
+            emergencyNumber.setError("Enter a valid emergency number (e.g. 09XXXXXXXXX)");
+            emergencyNumber.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(emailInput)) {
+            email.setError("Email is required");
+            email.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(passwordInput)) {
+            password.setError("Password is required");
+            password.requestFocus();
+            return;
+        }
+
+        if (passwordInput.length() < 6) {
+            password.setError("Password must be at least 6 characters");
+            password.requestFocus();
+            return;
+        }
+
+        if (!passwordInput.equals(confirmPasswordInput)) {
+            confirmPassword.setError("Passwords do not match");
+            confirmPassword.requestFocus();
+            return;
+        }
+
+        if (!isPasswordStrong(passwordInput)) {
+            password.setError("Must contain uppercase, lowercase, number, and special character");
+            password.requestFocus();
             return;
         }
 
@@ -175,10 +222,12 @@ public class SignUpActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         saveUserProfile(user);
                     } else {
-                        Toast.makeText(this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        email.setError("Sign up failed: " + task.getException().getMessage());
+                        email.requestFocus();
                     }
                 });
     }
+
 
 
     private boolean isPasswordStrong(String password) {

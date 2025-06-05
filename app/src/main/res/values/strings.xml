@@ -11,4 +11,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_transaction">Transactions</string>
     <string name="menu_aboutyou">About You</string>
+    <string name="Sign_up_underlined"><u>Sign Up</u></string>
+    <string name="Forgot_pass_underlined"><u>Forgot Password?</u></string>
+
 </resources>

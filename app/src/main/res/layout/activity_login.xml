@@ -167,8 +167,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="24dp"
-            android:text="Forgot Password?"
-            android:textColor="@color/emergency_red"
+            android:text="@string/Forgot_pass_underlined"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
             android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -200,8 +201,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="4dp"
-                android:text="Sign up"
-                android:textColor="#C40233"
+                android:text="@string/Sign_up_underlined"
+                android:textColor="@color/blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>

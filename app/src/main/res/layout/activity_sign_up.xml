@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true">
 
     <LinearLayout
@@ -20,6 +21,40 @@
             android:textColor="@color/dark_green"
             android:layout_marginBottom="32dp"
             android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginBottom="4dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp
+"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/bg_rounded_red">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back_button"
+                android:background="@color/emergency_red"
+                app:tint="@color/off_white"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go Back"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="@color/off_white" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/name_text"
