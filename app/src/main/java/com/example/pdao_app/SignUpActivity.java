@@ -95,22 +95,36 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void showDatePicker() {
-        final Calendar calendar = Calendar.getInstance();
-        int yearNow = calendar.get(Calendar.YEAR);
-        int monthNow = calendar.get(Calendar.MONTH);
-        int dayNow = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar today = Calendar.getInstance();
+        int yearNow = today.get(Calendar.YEAR);
+        int monthNow = today.get(Calendar.MONTH);
+        int dayNow = today.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, month, dayOfMonth);
+
                     String formattedDate = (month + 1) + "/" + dayOfMonth + "/" + year;
                     birthDate.setText(formattedDate);
-                    userAge = Calendar.getInstance().get(Calendar.YEAR) - year;
+                    birthDate.setError(null);
+
+                    int age = yearNow - year;
+                    if (month > monthNow || (month == monthNow && dayOfMonth > dayNow)) {
+                        age--;
+                    }
+
+                    userAge = age;
                     ageText.setText(String.valueOf(userAge));
                 },
-                yearNow, monthNow, dayNow);
+                yearNow, monthNow, dayNow
+        );
 
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
+
+
 
     private void registerUser() {
         String emailInput = email.getText().toString().trim();

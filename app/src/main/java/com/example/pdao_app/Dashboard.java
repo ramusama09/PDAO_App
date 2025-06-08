@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pdao_app.databinding.DialogChangeEmailBinding;
 import com.example.pdao_app.databinding.DialogChangePasswordBinding;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.EdgeToEdge;

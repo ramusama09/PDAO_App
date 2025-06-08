@@ -274,6 +274,7 @@ public class HomeFragment extends Fragment {
                             },
                             year, month, day
                     );
+                    datePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
                     datePicker.show();
                 });
 
