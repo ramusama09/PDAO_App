@@ -252,6 +252,12 @@ public class Dashboard extends AppCompatActivity {
                 return;
             }
 
+            if (newEmail.equalsIgnoreCase(currentEmail)) {
+                dialogBinding.editEmail.setError("No changes detected. Enter a different email.");
+                dialogBinding.editEmail.requestFocus();
+                return;
+            }
+
             AuthCredential credential = EmailAuthProvider.getCredential(currentEmail, currentPassword);
 
             // Re-authenticate first

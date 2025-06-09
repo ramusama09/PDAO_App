@@ -34,6 +34,11 @@
                 android:background="@drawable/bg_search_bar"
                 android:gravity="center_horizontal">
 
+                <ImageView
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:src="@drawable/logo_pdao"/>
+
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
